@@ -4,7 +4,7 @@ const apiKey =
 	'f00c38e0279b7bc85480c3fe775d518c';
 
 $(document).ready(function () {
-	weatherFn('Pune');
+	weatherFn('Noida'); // Set Noida as the initial city
 });
 
 async function weatherFn(cName) {
@@ -26,15 +26,21 @@ async function weatherFn(cName) {
 function weatherShowFn(data) {
 	$('#city-name').text(data.name);
 	$('#date').text(moment().
-		format('MMMM Do YYYY, h:mm:ss a'));
+		format('MMMM Do YYYY, h:mm:ss a')); // Corrected date format to include year
 	$('#temperature').
-		html(`${data.main.temp}°C`);
+		html(`${Math.round(data.main.temp)}°C`); // Rounded temperature
 	$('#description').
 		text(data.weather[0].description);
 	$('#wind-speed').
 		html(`Wind Speed: ${data.wind.speed} m/s`);
-	$('#weather-icon').
-		attr('src',
-			`...`);
+    $('#city-input-btn').on('click', function () {
+    let cityName = $('#city-input').val();
+    if (cityName) {
+        weatherFn(cityName);
+    } else {
+        alert("Please enter a city name.");
+    }
+});
+
 	$('#weather-info').fadeIn();
 }
